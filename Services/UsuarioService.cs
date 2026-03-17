@@ -105,17 +105,40 @@ namespace Gestión_de_Biblioteca.Services
                 // Un admin por seguridad no debería borrarse a sí mismo, pero lo dejaremos simple por ahora
                 usuarios.Remove(usuario);
 
-                using (StreamWriter sw = new StreamWriter(_filePath, false))
-                {
-                    foreach (var u in usuarios)
-                    {
-                        sw.WriteLine($"{u.Username},{u.Password},{u.Rol}");
-                    }
-                }
+                GuardarListaDeUsuarios(usuarios);
             }
             else
             {
                 throw new Exception("El usuario no existe.");
+            }
+        }
+
+        public void ActualizarUsuario(Usuario usuarioActualizado)
+        {
+            var usuarios = ObtenerUsuarios();
+
+            // Buscar por nombre de usuario viejo (ya que ese no se puede cambiar, actúa como ID)
+            int index = usuarios.FindIndex(u => u.Username.Equals(usuarioActualizado.Username, StringComparison.OrdinalIgnoreCase));
+
+            if (index != -1)
+            {
+                usuarios[index] = usuarioActualizado;
+                GuardarListaDeUsuarios(usuarios);
+            }
+            else
+            {
+                throw new Exception("El usuario no existe, no se pudo actualizar.");
+            }
+        }
+
+        private void GuardarListaDeUsuarios(List<Usuario> usuarios)
+        {
+            using (StreamWriter sw = new StreamWriter(_filePath, false))
+            {
+                foreach (var u in usuarios)
+                {
+                    sw.WriteLine($"{u.Username},{u.Password},{u.Rol}");
+                }
             }
         }
     }

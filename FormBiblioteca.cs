@@ -443,6 +443,64 @@ namespace Gestión_de_Biblioteca
             }
         }
 
+        private void btnEditarUsuario_Click(object sender, EventArgs e)
+        {
+            if (dgvUsuarios.SelectedRows.Count == 0)
+            {
+                MessageBox.Show("Por favor selecciona un usuario de la tabla para editarlo.");
+                return;
+            }
+
+            Usuario usuarioSeleccionado = (Usuario)dgvUsuarios.SelectedRows[0].DataBoundItem;
+
+            Form formEditarU = new Form() { Width = 350, Height = 300, Text = "Editar Usuario", StartPosition = FormStartPosition.CenterParent };
+
+            TextBox txtUsername = new TextBox() { Left = 25, Top = 30, Width = 280, Text = usuarioSeleccionado.Username, ReadOnly = true }; // No debería dejar cambiar el username
+            TextBox txtPassword = new TextBox() { Left = 25, Top = 80, Width = 280, Text = usuarioSeleccionado.Password };
+            ComboBox cmbRol = new ComboBox() { Left = 25, Top = 130, Width = 280, DropDownStyle = ComboBoxStyle.DropDownList };
+            cmbRol.Items.Add("Cliente");
+            cmbRol.Items.Add("Admin");
+            cmbRol.SelectedItem = usuarioSeleccionado.Rol;
+
+            Button btnGuardarU = new Button() { Text = "Actualizar", Left = 185, Top = 190, Width = 120, Height = 40 };
+
+            btnGuardarU.Click += (senderObj, eArgs) => {
+                Form f = (senderObj as Control).FindForm();
+
+                if (string.IsNullOrWhiteSpace(txtPassword.Text))
+                {
+                    MessageBox.Show("La contraseña no puede estar vacía.");
+                    return;
+                }
+
+                try
+                {
+                    Usuario usuarioActualizado = cmbRol.Text == "Admin" 
+                        ? (Usuario)new Administrador(txtUsername.Text, txtPassword.Text.Trim()) 
+                        : (Usuario)new Cliente(txtUsername.Text, txtPassword.Text.Trim());
+
+                    _usuarioService.ActualizarUsuario(usuarioActualizado);
+                    f.DialogResult = DialogResult.OK;
+                    f.Close();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "Error al actualizar");
+                }
+            };
+
+            formEditarU.Controls.Add(txtUsername);
+            formEditarU.Controls.Add(txtPassword);
+            formEditarU.Controls.Add(cmbRol);
+            formEditarU.Controls.Add(btnGuardarU);
+
+            if (formEditarU.ShowDialog() == DialogResult.OK)
+            {
+                MessageBox.Show("Usuario actualizado correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                CargarUsuarios();
+            }
+        }
+
         private void btnEliminarUsuario_Click(object sender, EventArgs e)
         {
             if (dgvUsuarios.SelectedRows.Count == 0)

@@ -27,6 +27,7 @@ namespace Gestión_de_Biblioteca
         // Controles para Usuarios
         private System.Windows.Forms.DataGridView dgvUsuarios;
         private System.Windows.Forms.Button btnCrearUsuarioAdmin;
+        private System.Windows.Forms.Button btnEditarUsuario;
         private System.Windows.Forms.Button btnEliminarUsuario;
 
         // Controles para Estadísticas (OxyPlot)
@@ -63,6 +64,7 @@ namespace Gestión_de_Biblioteca
             dgvPrestamos = new DataGridView();
             tabPanelUsuarios = new TabPage();
             btnCrearUsuarioAdmin = new Button();
+            btnEditarUsuario = new Button();
             btnEliminarUsuario = new Button();
             dgvUsuarios = new DataGridView();
             tabPanelEstadisticas = new TabPage();
@@ -262,6 +264,7 @@ namespace Gestión_de_Biblioteca
             // tabPanelUsuarios
             // 
             tabPanelUsuarios.Controls.Add(btnCrearUsuarioAdmin);
+            tabPanelUsuarios.Controls.Add(btnEditarUsuario);
             tabPanelUsuarios.Controls.Add(btnEliminarUsuario);
             tabPanelUsuarios.Controls.Add(dgvUsuarios);
             tabPanelUsuarios.Location = new Point(4, 34);
@@ -284,10 +287,21 @@ namespace Gestión_de_Biblioteca
             btnCrearUsuarioAdmin.UseVisualStyleBackColor = true;
             btnCrearUsuarioAdmin.Click += btnCrearUsuarioAdmin_Click;
             // 
+            // btnEditarUsuario
+            // 
+            btnEditarUsuario.Location = new Point(257, 625);
+            btnEditarUsuario.Margin = new Padding(4, 5, 4, 5);
+            btnEditarUsuario.Name = "btnEditarUsuario";
+            btnEditarUsuario.Size = new Size(214, 50);
+            btnEditarUsuario.TabIndex = 3;
+            btnEditarUsuario.Text = "Editar Usuario";
+            btnEditarUsuario.UseVisualStyleBackColor = true;
+            btnEditarUsuario.Click += btnEditarUsuario_Click;
+            // 
             // btnEliminarUsuario
             // 
             btnEliminarUsuario.ForeColor = Color.Red;
-            btnEliminarUsuario.Location = new Point(257, 625);
+            btnEliminarUsuario.Location = new Point(493, 625);
             btnEliminarUsuario.Margin = new Padding(4, 5, 4, 5);
             btnEliminarUsuario.Name = "btnEliminarUsuario";
             btnEliminarUsuario.Size = new Size(214, 50);
