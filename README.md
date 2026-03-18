@@ -2,7 +2,7 @@
 
 Hola 👋
 
-Este proyecto lo hice como práctica de programación orientada a objetos usando `C#` y `Windows Forms`.
+Este proyecto se realizo como práctica de programación orientada a objetos usando `C#` y `Windows Forms`.
 La idea fue construir un sistema de biblioteca **local** (sin base de datos), pero que igual permitiera manejar usuarios, libros, préstamos y estadísticas de forma completa.
 
 ## ¿Qué hace la aplicación?
@@ -16,7 +16,7 @@ Permite:
 - Ver estadísticas con gráficos.
 - Guardar la información en archivos `.txt`.
 
-## Tecnologías que usé
+## Tecnologías usadas
 
 - `.NET 8`
 - `Windows Forms`
