@@ -37,6 +37,10 @@ namespace Gestión_de_Biblioteca
         // Control para Cerrar Sesión
         private System.Windows.Forms.Button btnCerrarSesion;
 
+        // Controles para StatusStrip
+        private System.Windows.Forms.StatusStrip statusStripPrincipal;
+        private System.Windows.Forms.ToolStripStatusLabel lblStatus;
+
         protected override void Dispose(bool disposing)
         {
             if (disposing && (components != null))
@@ -71,6 +75,8 @@ namespace Gestión_de_Biblioteca
             plotUsuarios = new OxyPlot.WindowsForms.PlotView();
             plotLibros = new OxyPlot.WindowsForms.PlotView();
             btnCerrarSesion = new Button();
+            statusStripPrincipal = new StatusStrip();
+            lblStatus = new ToolStripStatusLabel();
 
             tabControlPrincipal.SuspendLayout();
             tabPanelLibros.SuspendLayout();
@@ -377,11 +383,27 @@ namespace Gestión_de_Biblioteca
             btnCerrarSesion.UseVisualStyleBackColor = false;
             btnCerrarSesion.Click += btnCerrarSesion_Click;
             // 
+            // statusStripPrincipal
+            // 
+            statusStripPrincipal.Items.AddRange(new ToolStripItem[] { lblStatus });
+            statusStripPrincipal.Location = new Point(0, 850);
+            statusStripPrincipal.Name = "statusStripPrincipal";
+            statusStripPrincipal.Size = new Size(1334, 22);
+            statusStripPrincipal.TabIndex = 3;
+            statusStripPrincipal.Text = "statusStripPrincipal";
+            // 
+            // lblStatus
+            // 
+            lblStatus.Name = "lblStatus";
+            lblStatus.Size = new Size(0, 17);
+            lblStatus.Text = "";
+            // 
             // FormBiblioteca
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1334, 872);
+            Controls.Add(statusStripPrincipal);
             Controls.Add(btnCerrarSesion);
             Controls.Add(tabControlPrincipal);
             Controls.Add(lblBienvenida);
@@ -400,6 +422,8 @@ namespace Gestión_de_Biblioteca
             tabPanelUsuarios.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)dgvUsuarios).EndInit();
             tabPanelEstadisticas.ResumeLayout(false);
+            statusStripPrincipal.ResumeLayout(false);
+            statusStripPrincipal.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
         }

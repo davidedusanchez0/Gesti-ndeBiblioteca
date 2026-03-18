@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using OxyPlot;
 using OxyPlot.Series;
@@ -33,6 +34,19 @@ namespace Gestión_de_Biblioteca
             CargarPrestamos();
             CargarUsuarios();
             CargarEstadisticas();
+        }
+
+        private async void MostrarMensajeEstatus(string mensaje)
+        {
+            lblStatus.Text = mensaje;
+            // Espera 3 segundos (3000 milisegundos) de forma asíncrona sin congelar la pantalla
+            await Task.Delay(3000); 
+
+            // Si el mensaje sigue siendo el mismo (es decir, no se sobreescribió con otra acción rápida), lo borramos
+            if (lblStatus.Text == mensaje) 
+            {
+                lblStatus.Text = "";
+            }
         }
 
         private void ConfigurarAccesos()
@@ -202,7 +216,7 @@ namespace Gestión_de_Biblioteca
 
             if (formCrear.ShowDialog() == DialogResult.OK)
             {
-                MessageBox.Show("Libro agregado exitosamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MostrarMensajeEstatus("Libro agregado exitosamente.");
                 CargarLibros(); // Recargar la grilla
             }
         }
@@ -261,7 +275,7 @@ namespace Gestión_de_Biblioteca
 
             if (formEditar.ShowDialog() == DialogResult.OK)
             {
-                MessageBox.Show("Libro actualizado correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MostrarMensajeEstatus("Libro actualizado correctamente.");
                 CargarLibros();
             }
         }
@@ -285,7 +299,7 @@ namespace Gestión_de_Biblioteca
                     Libro libroSeleccionado = (Libro)dgvLibros.SelectedRows[0].DataBoundItem;
 
                     _libroService.EliminarLibro(libroSeleccionado.ISBN);
-                    MessageBox.Show("Libro eliminado correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MostrarMensajeEstatus("Libro eliminado correctamente.");
 
                     CargarLibros(); // Recargar grilla
                 }
@@ -344,7 +358,7 @@ namespace Gestión_de_Biblioteca
                 // 2. Registrar en prestamos.txt
                 _prestamoService.RegistrarPrestamo(_usuarioActual.Username, libroSeleccionado.ISBN, libroSeleccionado.Titulo);
 
-                MessageBox.Show($"Has solicitado exitosamente '{libroSeleccionado.Titulo}'.", "Préstamo Aprobado", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MostrarMensajeEstatus($"Has solicitado exitosamente '{libroSeleccionado.Titulo}'.");
 
                 // 3. Recargar ambas grillas para ver los cambios
                 CargarLibros();
@@ -380,7 +394,7 @@ namespace Gestión_de_Biblioteca
                 // 2. Sumar 1 copia de vuelta al libro correspondiente
                 _libroService.ActualizarCopias(prestamoSeleccionado.ISBNLibro, 1);
 
-                MessageBox.Show("Gracias por devolver el libro.", "Devolución Exitosa", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MostrarMensajeEstatus("Gracias por devolver el libro.");
 
                 // 3. Recargar grillas
                 CargarLibros();
@@ -524,7 +538,7 @@ namespace Gestión_de_Biblioteca
                 try
                 {
                     _usuarioService.EliminarUsuario(usuarioSeleccionado.Username);
-                    MessageBox.Show("Usuario eliminado.");
+                    MostrarMensajeEstatus("Usuario eliminado.");
                     CargarUsuarios();
                 }
                 catch (Exception ex)
